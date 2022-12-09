@@ -1,6 +1,10 @@
 <script>
+import { commonMod } from "@/store";
+
 export default {
   onLaunch: function () {
+    const systemInfo = uni.getSystemInfoSync();
+    commonMod.saveSystemInfo(systemInfo);
     console.log("App Launch");
   },
   onShow: function () {

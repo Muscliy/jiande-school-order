@@ -1,0 +1,21 @@
+page {
+  --button-primary-background-color: #0076ff;
+  --button-primary-border-color: #0076ff;
+  --button-border-radius: 8rpx;
+  --button-large-height: 96rpx;
+  --cell-font-size: 32rpx;
+  // --cell-line-height: 36rpx;
+  --cell-vertical-padding: 40rpx;
+  --cell-text-color: #999;
+  --cell-label-color: #999;
+  --cell-value-color: #333;
+  --field-label-color: #999;
+  --popup-round-border-radius: 16rpx;
+  --cell-required-color: #e72832;
+  --tabs-bottom-bar-color: #0076ff;
+  --tab-font-size: 32rpx;
+}
+
+.van-checkbox__icon {
+  border-radius: 4rpx;
+}

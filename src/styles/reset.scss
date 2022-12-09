@@ -1,0 +1,48 @@
+
+button {
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+  border-radius: 8rpx;
+}
+
+button::after{
+  border: none !important; //黑色边框去掉了
+}
+
+.button-hover {
+  opacity: 0.8 !important;
+}
+
+button[type='warning'] {
+  color: #fff !important;
+  background: #FF8A21 !important;
+}
+
+button[type='warning'][disabled] {
+  opacity: 0.3 !important;
+}
+
+button[type='success'] {
+  color: #fff !important;
+  background: #17BB89 !important;
+}
+
+button[type='success'][disabled] {
+  opacity: 0.3 !important;
+}
+
+button[type='primary'] {
+  color: #fff !important;
+  background: #0076FF !important;
+}
+
+button[type='primary'][disabled] {
+  opacity: 0.3 !important;
+}
+
+tosb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

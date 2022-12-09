@@ -1,6 +1,6 @@
 <template>
   <view
-    class="tosb-layout h-full flex flex-col box-border"
+    class="box-border flex flex-col h-full tosb-layout"
     :style="layoutStyle"
   >
     <template v-if="nav">
@@ -47,8 +47,8 @@ export default {
     layoutStyle() {
       let style = "";
       if (this.tabbar) {
-        style += "padding-bottom: 113rpx;";
-        // style += `padding-bottom: calc(138rpx + constant(safe-area-inset-bottom));padding-bottom: calc(138rpx + env(safe-area-inset-bottom));`
+        // style += "padding-bottom: 113rpx;";
+        style += `padding-bottom: calc(138rpx + constant(safe-area-inset-bottom));padding-bottom: calc(138rpx + env(safe-area-inset-bottom));`;
       }
       if (this.bgColor) {
         style += `background-color: ${this.bgColor}; `;

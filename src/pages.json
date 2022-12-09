@@ -1,10 +1,51 @@
 {
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/start/index",
+      "style": {
+        "navigationBarTitleText": "平安校园"
+      }
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
     {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "uni-app"
+      }
+    },
+    {
+      "path": "pages/create/index",
+      "style": {
+        "navigationBarTitleText": "创建工单"
+      }
+    },
+    {
+      "path": "pages/order-detail/index",
+      "style": {
+        "navigationBarTitleText": "工单详情"
+      }
+    },
+    {
+      "path": "pages/order-repair/index",
+      "style": {
+        "navigationBarTitleText": "工单维修"
+      }
+    },
+    {
+      "path": "pages/worker/index",
+      "style": {
+        "navigationBarTitleText": "你的维修工单"
+      }
+    },
+    {
+      "path": "pages/school/index",
+      "style": {
+        "navigationBarTitleText": "维修记录"
       }
     }
   ],
@@ -19,7 +60,7 @@
       // "van-area": "/wxcomponents/vant/area/index",
       // "van-badge": "/wxcomponents/vant/badge/index",
       // "van-badge-group": "/wxcomponents/vant/badge-group/index",
-      // "van-uploader": "/wxcomponents/vant/uploader/index",
+      "van-uploader": "/wxcomponents/vant/uploader/index",
       "van-button": "/wxcomponents/vant/button/index",
       // "van-card": "/wxcomponents/vant/card/index",
       "van-cell": "/wxcomponents/vant/cell/index",
