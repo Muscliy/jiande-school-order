@@ -75,6 +75,7 @@
 
 <script>
 import { commonMod } from "@/store";
+import { queryOrderApi } from "../../apis/order";
 export default {
   computed: {
     imageHeight() {
@@ -84,6 +85,7 @@ export default {
   },
   data() {
     return {
+      order: {},
       title: "Hello",
       images: [
         "https://img.yzcdn.cn/vant/cat.jpeg",
@@ -95,7 +97,11 @@ export default {
       ],
     };
   },
-  onLoad() {},
+  async onLoad(option) {
+    const { orderId } = option;
+    const res = await queryOrderApi({ orderId });
+    this.order = res.data;
+  },
   methods: {
     handleConfirm() {},
     handleRest() {},

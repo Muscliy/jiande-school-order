@@ -1,16 +1,24 @@
 <template>
   <tosb-page footer>
-    <van-cell title="学校" value="新安江中学" />
+    <van-cell title="学校" :value="schoolName" />
     <van-field
       label="报修原因"
       type="textarea"
       placeholder="请输入原因"
+      :value="orderContent"
       :autosize="{ minHeight: 200 }"
       border
     />
     <view class="tosb-cell">
       <view class="pb-16"><text class="text-muted">上传图片</text> </view>
-      <van-uploader :file-list="fileList" />
+      <van-uploader
+        :file-list="fileList"
+        @after-read="afterRead"
+        accept="image"
+        :deletable="true"
+        :max-count="9"
+        multiple
+      />
     </view>
     <view slot="footer">
       <van-button type="info" size="large" block>提交</van-button>
@@ -19,28 +27,51 @@
 </template>
 
 <script>
+import { uploadFileApi } from "../../apis/file";
+import { getCodeApi } from "../../apis/order";
+import { getUserInfoSync } from "../../helpers/storage";
+
 export default {
   data() {
     return {
-      title: "Hello",
-      fileList: [
-        {
-          url: "https://img.yzcdn.cn/vant/leaf.jpg",
-          name: "图片1",
-        },
-        // Uploader 根据文件后缀来判断是否为图片文件
-        // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-        {
-          url: "http://iph.href.lu/60x60?text=default",
-          name: "图片2",
-          isImage: true,
-          deletable: true,
-        },
-      ],
+      orderCode: null,
+      schoolCode: null,
+      schoolName: null,
+      orderContent: null,
+      fileList: [],
+      orderImgList: [],
     };
   },
-  onLoad() {},
-  methods: {},
+  onLoad() {
+    const userInfo = getUserInfoSync();
+    this.schoolName = userInfo.orgName;
+    this.schoolCode = userInfo.orgCode;
+    this.syncCode();
+  },
+  methods: {
+    async afterRead(event) {
+      const { file } = event.detail;
+      this.fileList = file;
+    },
+
+    async syncCode() {
+      const res = await getCodeApi();
+      console.log(res);
+    },
+
+    handleAdd(values) {},
+
+    handleSubmit() {
+      uni.showLoading({
+        title: "图片上传中",
+      });
+      const uploads = [];
+      this.fileList.forEach((item, index) => {
+        uploads(uploadFileApi(item));
+      });
+      Promise.all(uploads).then((values) => {});
+    },
+  },
 };
 </script>
 

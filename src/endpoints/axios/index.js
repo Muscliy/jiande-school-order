@@ -16,8 +16,11 @@ export function composeRequestHeader() {
   header["X-Requested-With"] = "MiniProgramRequest"; //portal请求时要求的标识
   header["accept-language"] = "zh-CN,zh;q=0.9";
   const token = getTokenSync() || "";
-  const sessionId = `JSESSIONID=${token}`;
-  header["cookie"] = token ? sessionId : "";
+  if (token) {
+    const sessionId = `JSESSIONID=${token}`;
+    console.log(sessionId);
+    header["cookie"] = token ? sessionId : "";
+  }
   return header;
 }
 
@@ -34,7 +37,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     const { data } = response;
-    const { code, stat } = data || {};
+    const { code } = data || {};
     if (code === 0) {
       // '0' 兼容交通上报
       return response.data;

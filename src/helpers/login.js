@@ -8,9 +8,11 @@ import {
 import handleError from "@/helpers/handleError";
 import {
   getCurrentUserOrgType,
+  getCurrentUserPhoneSync,
   setCurrentUserOrgType,
   setUserInfoSync,
 } from "./storage";
+import { queryOrgList } from "../apis/org";
 
 // 登录后统一处理逻辑
 export const loginAfterDo = async function (res) {
@@ -50,9 +52,21 @@ export const loginAfterFromStart = async function () {
         duration: 2000,
       });
     }
+    // syncUserOrgInfo();
   } else {
     uni.reLaunch({
       url: "/pages/login/index",
     });
   }
 };
+
+// export const syncUserOrgInfo = async function () {
+//   try {
+//     const phonenumber = getCurrentUserPhoneSync();
+//     debugger;
+//     const res = await queryOrgList({ phonenumber });
+//     console.log(res);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

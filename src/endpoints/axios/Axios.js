@@ -156,8 +156,6 @@ class Axios {
 
   post(url, data, config) {
     // #ifdef MP-WEIXIN
-    url = url.replace("/api", "");
-    // #endif
     return this._proxy(
       this.request({
         url,

@@ -14,6 +14,7 @@ export const BaseUrlMap = {
   // develop: 'https://gateway.wlhyos.gray.xiaokuaikeji.com',
   // develop: 'https://gateway.wlhyos.test.xiaokuaikeji.com',
   develop: "https://hswo.yglyz.com/",
+  // develop: "http://27t16407n1.oicp.vip/",
   trial: "https://driver.wlhyos.test.xiaokuaikeji.com",
   release: "https://driver.wlhyos.com",
 };

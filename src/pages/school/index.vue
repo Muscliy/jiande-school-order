@@ -44,7 +44,7 @@ export default {
       active: 0,
     };
   },
-  onLoad() {},
+
   methods: {
     tabsChange(event) {
       this.active = event.detail.name;
