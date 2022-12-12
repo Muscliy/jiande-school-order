@@ -1,5 +1,5 @@
 <template>
-  <tosb-layout footer>
+  <tosb-page footer>
     <van-cell title="学校">新安江中学</van-cell>
     <van-cell title="状态">处理中</van-cell>
     <van-cell title="承修单位">建的XXXX</van-cell>
@@ -51,8 +51,8 @@
         :style="{ marginRight: (index + 1) % 4 === 0 ? '0px' : '10px' }"
       />
     </view>
-    <view slot="footer" class="pb-32 bg-white">
-      <view class="flex flex-row py-16">
+    <view slot="footer">
+      <view class="flex flex-row">
         <view class="flex items-center justify-center flex-1 px-16"
           ><van-button class="w-full" block type="warning" @click="handleRest">
             返修
@@ -70,7 +70,7 @@
         >
       </view>
     </view>
-  </tosb-layout>
+  </tosb-page>
 </template>
 
 <script>

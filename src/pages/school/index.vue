@@ -24,6 +24,12 @@
         </view>
       </van-tab>
     </van-tabs>
+    <uni-fab
+      :popMenu="false"
+      horizontal="right"
+      vertical="bottom"
+      @fabClick="trigger"
+    ></uni-fab>
   </view>
 </template>
 
@@ -42,6 +48,11 @@ export default {
   methods: {
     tabsChange(event) {
       this.active = event.detail.name;
+    },
+    trigger() {
+      uni.reLaunch({
+        url: "/pages/create/index",
+      });
     },
   },
 };

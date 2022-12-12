@@ -47,7 +47,7 @@ module.exports = {
       placeholder: "#c6c6c6",
     },
     screens: {},
-    spacing: makeRange(8, 100, 4, true),
+    spacing: makeRange(0, 100, 4, true),
     // borderColor: { DEFAULT: 'var(--colors-border)' },
     borderColor: {
       default: "#c6c6c6",

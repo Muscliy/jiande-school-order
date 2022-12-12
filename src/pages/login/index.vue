@@ -4,10 +4,8 @@
       class="logo"
       src="https://oss.kuaihuoyun.com/celestia/img/driver-mini-logo.png"
     ></image>
-    <text class="block text-center text-40 h1">网络货运司机</text>
+    <text class="block text-center text-40 h1">安全校园</text>
     <view class="btn-box">
-      <!-- <button class="btn btn-white" @click="jumpLoginSms">验证码登录</button> -->
-      <!-- <button class="btn btn-white" @click="jumpLoginPwd">密码登录</button> -->
       <button
         class="btn btn-green"
         open-type="getPhoneNumber"
@@ -20,80 +18,25 @@
         >微信登录
       </button>
     </view>
-    <!-- <uni-popup ref="popup" type="dialog">
-      <view class="popup-content">
-        <text class="block mb-24 text-main text-40 font-500"
-          >个人信息保护须知</text
-        >
-        <view class="popup-data"
-          >感谢使用本产品，我们非常重视您的个人信息和隐私保护，为了更好的保障您的个人权益，在您使用本产品前请务必审慎阅读<text
-            class="text-primary"
-            @click="jumpAgreement"
-            >《用户服务协议》</text
-          ><text>及</text
-          ><text class="text-primary" @click="jumpPrivacy">《隐私政策》</text
-          >内的所有条款。您点击“同意并继续”的行为即表示您已阅读并同意以上协议的全部内容。
-        </view>
-        <view class="button-bottom">
-          <view class="popup-btn">
-            <text @click="close">不同意</text>
-          </view>
-          <view class="popup-btn popup-btn2">
-            <text class="text-primary" @click="confirm">同意并继续</text>
-          </view>
-        </view>
-      </view>
-    </uni-popup>
-    <view class="block text-center bottom">
-      <text>登录前请充分阅读并理解</text
-      ><text class="text-primary" @click="jumpAgreement">《用户服务协议》</text
-      ><text>及</text
-      ><text class="text-primary" @click="jumpPrivacy">《隐私政策》</text>
-    </view> -->
   </view>
 </template>
 
 <script>
 import { wxLoginApi } from "@/apis/login";
-import { loginAfterDo, jumpAgreementDo, jumpPrivacyDo } from "@/helpers/login";
+import { loginAfterDo } from "@/helpers/login";
 import {
   setCurrentJsCodeSync,
   getCurrentJsCodeSync,
-  setIsReadAgreementSync,
-  getIsReadAgreementSync,
   setTokenSync,
 } from "@/helpers/storage";
 export default {
-  data() {
-    return {};
-  },
   onShow() {
     let that = this;
-    let login_code = getCurrentJsCodeSync();
-    if (!login_code) {
-      that.wxLogin().then((code) => {
-        setCurrentJsCodeSync(code);
-      });
-    } else {
-      // eslint-disable-next-line no-undef
-      wx.checkSession({
-        success() {
-          //console.log('success');
-        },
-        fail() {
-          //console.log('fail');
-          that.wxLogin().then((code) => {
-            setCurrentJsCodeSync(code);
-          });
-        },
-      });
-    }
+    that.wxLogin().then((code) => {
+      setCurrentJsCodeSync(code);
+    });
   },
-  onLoad() {
-    // if (!getIsReadAgreementSync()) {
-    //   this.$refs.popup.open();
-    // }
-  },
+
   methods: {
     close() {
       setIsReadAgreementSync(null);
@@ -102,6 +45,23 @@ export default {
     confirm() {
       setIsReadAgreementSync("true");
       this.$refs.popup.close();
+    },
+    getUserInfo(e) {
+      uni.getUserProfile({
+        desc: "获取用户信息",
+        success: (userInfo) => {
+          console.log(userInfo, "userInfo");
+          uni.login({
+            provider: "weixin",
+            success: (loginInfo) => {
+              console.log(loginInfo, "loginInfo");
+            },
+          });
+        },
+        fail: (err) => {
+          console.log(err, "err");
+        },
+      });
     },
     async wxLogin() {
       return new Promise((resolve) => {
@@ -122,10 +82,7 @@ export default {
       });
     },
     async getPhoneNumber(e) {
-      // if (!getIsReadAgreementSync()) {
-      //   this.$refs.popup.open();
-      //   return;
-      // }
+      console.log(e);
       if (e.detail.encryptedData) {
         await this.login(e);
       } else {
@@ -138,10 +95,9 @@ export default {
     async login(e) {
       let login_code = getCurrentJsCodeSync();
       const params = {
-        jsCode: login_code,
-        encryptedData: e.detail.encryptedData,
-        iv: e.detail.iv,
-        programName: "wlhy_driver",
+        code: login_code,
+        encryptedDataPhone: e.detail.encryptedData,
+        ivStrPhone: e.detail.iv,
       };
       uni.showLoading({
         title: "登录中…",
@@ -150,37 +106,13 @@ export default {
         setTokenSync(null);
         const res = await wxLoginApi(params);
         setCurrentJsCodeSync(null);
-        loginAfterDo(res);
+        await loginAfterDo(res);
       } catch (error) {
         this.$handleError(error);
         this.wxLogin().then((code) => {
           setCurrentJsCodeSync(code);
         });
       }
-    },
-    // jumpLoginSms() {
-    //   if (!getIsReadAgreementSync()) {
-    //     this.$refs.popup.open();
-    //     return;
-    //   }
-    //   uni.navigateTo({
-    //     url: "/pages/login/login-sms",
-    //   });
-    // },
-    // jumpLoginPwd() {
-    //   if (!getIsReadAgreementSync()) {
-    //     this.$refs.popup.open();
-    //     return;
-    //   }
-    //   uni.navigateTo({
-    //     url: "/pages/login/login-pwd",
-    //   });
-    // },
-    jumpAgreement() {
-      jumpAgreementDo();
-    },
-    jumpPrivacy() {
-      jumpPrivacyDo();
     },
   },
 };

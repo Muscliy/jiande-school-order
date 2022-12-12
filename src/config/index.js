@@ -13,7 +13,7 @@ export const EnvMap = {
 export const BaseUrlMap = {
   // develop: 'https://gateway.wlhyos.gray.xiaokuaikeji.com',
   // develop: 'https://gateway.wlhyos.test.xiaokuaikeji.com',
-  develop: "https://driver.wlhyos.test.xiaokuaikeji.com",
+  develop: "https://hswo.yglyz.com/",
   trial: "https://driver.wlhyos.test.xiaokuaikeji.com",
   release: "https://driver.wlhyos.com",
 };

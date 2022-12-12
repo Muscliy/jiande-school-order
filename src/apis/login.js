@@ -1,11 +1,10 @@
 import axios from "@/endpoints/axios";
+import queryString from "query-string";
 
-export const loginApi = (params) =>
-  axios.post("/vas/oauth/login", params, {
-    header: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
+export const wxLoginApi = (params) =>
+  axios.get(
+    `ma/wxuser/wx67ffcd11e4cd6e78/getOpenId?${queryString.stringify(params)}`
+  );
 
 export const logoutApi = (params) =>
   axios.post("/vas/oauth/logout", params, {
@@ -19,9 +18,6 @@ export const getMessageApi = (params) =>
 
 export const getPortalMessageApi = (params) =>
   axios.post(`/vas/portal/driver/user/sms/send`, params);
-
-export const wxLoginApi = (params) =>
-  axios.post(`/vas/oauth/login/wechat_mini`, params);
 
 export const updatePasswordApi = (params) =>
   axios.post(`/vas/oauth/user/reset_pwd`, params);

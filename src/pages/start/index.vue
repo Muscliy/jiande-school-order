@@ -18,6 +18,13 @@ export default {
     };
   },
   onShow() {
+    console.log("dshkdhskdh");
+    uni.login({
+      success: (res) => {
+        console.log(res.code);
+      },
+    });
+
     this.setTimeoutFun = setTimeout(() => {
       loginAfterFromStart();
     }, 1500);

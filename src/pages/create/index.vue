@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <tosb-page footer>
     <van-cell title="学校" value="新安江中学" />
     <van-field
       label="报修原因"
@@ -12,10 +12,10 @@
       <view class="pb-16"><text class="text-muted">上传图片</text> </view>
       <van-uploader :file-list="fileList" />
     </view>
-    <view class="footer-button-container">
+    <view slot="footer">
       <van-button type="info" size="large" block>提交</van-button>
     </view>
-  </view>
+  </tosb-page>
 </template>
 
 <script>
