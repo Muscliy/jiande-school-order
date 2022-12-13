@@ -10,17 +10,17 @@
     >
       <van-tab title="全部">
         <view>
-          <all-orders :status="0" />
+          <all-orders :status="1" />
         </view>
       </van-tab>
       <van-tab title="处理中">
         <view>
-          <all-orders :status="1" />
+          <all-orders :status="2" />
         </view>
       </van-tab>
       <van-tab title="已完成">
         <view>
-          <all-orders :status="2" />
+          <all-orders :status="0" />
         </view>
       </van-tab>
     </van-tabs>
@@ -50,7 +50,7 @@ export default {
       this.active = event.detail.name;
     },
     trigger() {
-      uni.reLaunch({
+      uni.navigateTo({
         url: "/pages/create/index",
       });
     },

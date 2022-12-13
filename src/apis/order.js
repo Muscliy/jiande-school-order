@@ -1,19 +1,21 @@
 import axios from "@/endpoints/axios";
 
-export const addOrderApi = (params) => axios.post(`ma/woorgRest/add`, params);
+export const addOrderApi = (params) => axios.post(`ma/woorderRest/add`, params);
 
-export const editOrderApi = (params) => axios.post(`ma/woorgRest/edit`, params);
+export const editOrderApi = (params) =>
+  axios.post(`ma/woorderRest/edit`, params);
 
 export const queryOrderApi = (params) =>
-  axios.get(`ma/woorgRest/edit/${params.orderId}`);
+  axios.get(`ma/woorderRest/edit/${params.orderId}`);
 
-export const getCodeApi = (params) => axios.get(`ma/woorgRest/getCode`, params);
+export const getCodeApi = (params) =>
+  axios.post(`ma/woorderRest/getCode`, params);
 
 export const queryOrderListApi = (params) =>
-  axios.get(`ma/woorgRest/list`, params);
+  axios.post(`ma/woorderRest/list`, params);
 
 export const removeOrderApi = (params) =>
-  axios.get(`ma/woorgRest/remove`, params);
+  axios.post(`ma/woorderRest/remove`, params);
 
 export const queryDispatchOrderListApi = (params) =>
-  axios.get(`ma/wodispatchRest/list`, params);
+  axios.post(`ma/wodispatchRest/list`, params);

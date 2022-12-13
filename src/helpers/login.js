@@ -52,7 +52,7 @@ export const loginAfterFromStart = async function () {
         duration: 2000,
       });
     }
-    // syncUserOrgInfo();
+    syncUserOrgInfo();
   } else {
     uni.reLaunch({
       url: "/pages/login/index",
@@ -60,13 +60,12 @@ export const loginAfterFromStart = async function () {
   }
 };
 
-// export const syncUserOrgInfo = async function () {
-//   try {
-//     const phonenumber = getCurrentUserPhoneSync();
-//     debugger;
-//     const res = await queryOrgList({ phonenumber });
-//     console.log(res);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const syncUserOrgInfo = async function () {
+  try {
+    const phonenumber = getCurrentUserPhoneSync();
+    const res = await queryOrgList({ phonenumber });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};

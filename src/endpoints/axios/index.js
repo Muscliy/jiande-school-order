@@ -1,5 +1,5 @@
 import { createBaseUrl, EnvMap } from "@/config";
-import { getTokenSync } from "@/helpers/storage";
+import { getTokenSync, clearStorageSync } from "@/helpers/storage";
 import Axios from "./Axios";
 
 const instance = new Axios({
@@ -42,6 +42,20 @@ instance.interceptors.response.use(
       // '0' 兼容交通上报
       return response.data;
     }
+    if (code === 500) {
+      uni.showToast({
+        icon: "error",
+        title: response.data.msg,
+        duration: 1000,
+      });
+    }
+    if (code === 400) {
+      uni.reLaunch({
+        url: "/pages/start/index",
+      });
+      clearStorageSync();
+    }
+
     // eslint-disable-next-line no-undef
     let env = __wxConfig?.envVersion;
     if (env !== EnvMap.Release) {

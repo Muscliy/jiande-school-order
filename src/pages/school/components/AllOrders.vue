@@ -1,17 +1,20 @@
 <template>
   <tosb-layout>
-    <van-cell title="dsjaldsjla" @click="handleOrderClick(1)">处理中</van-cell>
-    <van-cell title="dsjaldsjla" @click="handleOrderClick(2)">处理中</van-cell>
-
-    <van-cell title="dsjaldsjla" @click="handleOrderClick(3)">处理中</van-cell>
-    <van-cell title="dsjaldsjla">处理中</van-cell>
-    <van-cell title="dsjaldsjla">处理中</van-cell>
-    <van-cell title="dsjaldsjla">处理中</van-cell>
+    <van-cell
+      v-for="(record, index) in records"
+      :key="index"
+      :title="record.orderContent"
+      @click="handleOrderClick(record.orderId)"
+      is-link
+      >{{ getStatusStr(record) }}</van-cell
+    >
   </tosb-layout>
 </template>
 
 <script>
 import { queryOrderListApi } from "../../../apis/order";
+import { OrderStatus } from "../../../helpers/constants";
+import { parseTime } from "../../../utils/time";
 export default {
   name: "AllOrders",
   props: {
@@ -19,12 +22,13 @@ export default {
       type: Number,
     },
   },
+
   data() {
     return {
       records: [],
     };
   },
-  async onLoad() {
+  async mounted() {
     const res = await queryOrderListApi({ orderStatus: this.status });
     const { rows } = res;
     this.records = rows;
@@ -34,6 +38,9 @@ export default {
       uni.reLaunch({
         url: `/pages/order-detail/index?orderId=${id}`,
       });
+    },
+    getStatusStr(row) {
+      return OrderStatus[row.orderStatus];
     },
   },
 };

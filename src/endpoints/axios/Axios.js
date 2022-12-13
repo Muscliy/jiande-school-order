@@ -1,6 +1,6 @@
 import InterceptorManager from "./InterceptorManager";
 
-const defaultContentType = "application/json;charset=UTF-8";
+const defaultContentType = "application/x-www-form-urlencoded";
 const CONTENT_TYPE = "Content-Type";
 class Axios {
   constructor(instanceConfig) {

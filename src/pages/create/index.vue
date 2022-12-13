@@ -1,34 +1,40 @@
 <template>
   <tosb-page footer>
-    <van-cell title="学校" :value="schoolName" />
-    <van-field
-      label="报修原因"
-      type="textarea"
-      placeholder="请输入原因"
-      :value="orderContent"
-      :autosize="{ minHeight: 200 }"
-      border
-    />
-    <view class="tosb-cell">
-      <view class="pb-16"><text class="text-muted">上传图片</text> </view>
-      <van-uploader
-        :file-list="fileList"
-        @after-read="afterRead"
-        accept="image"
-        :deletable="true"
-        :max-count="9"
-        multiple
+    <van-cell-group title-width="90rpx" :border="false">
+      <van-cell title="学校" :value="schoolName" />
+      <van-field
+        label="报修原因"
+        required
+        type="textarea"
+        placeholder="请输入原因"
+        :value="orderContent"
+        :autosize="{ minHeight: 200 }"
+        @change="handleInputChange"
+        border
       />
-    </view>
+      <view class="tosb-cell">
+        <view class="pb-16"><text class="text-muted">上传图片</text> </view>
+        <van-uploader
+          :file-list="fileList"
+          @after-read="afterRead"
+          accept="image"
+          :deletable="true"
+          :max-count="9"
+          multiple
+        />
+      </view>
+    </van-cell-group>
     <view slot="footer">
-      <van-button type="info" size="large" block>提交</van-button>
+      <van-button type="info" size="large" block @click="handleSubmit"
+        >提交</van-button
+      >
     </view>
   </tosb-page>
 </template>
 
 <script>
 import { uploadFileApi } from "../../apis/file";
-import { getCodeApi } from "../../apis/order";
+import { getCodeApi, addOrderApi } from "../../apis/order";
 import { getUserInfoSync } from "../../helpers/storage";
 
 export default {
@@ -37,7 +43,7 @@ export default {
       orderCode: null,
       schoolCode: null,
       schoolName: null,
-      orderContent: null,
+      orderContent: "",
       fileList: [],
       orderImgList: [],
     };
@@ -55,21 +61,66 @@ export default {
     },
 
     async syncCode() {
-      const res = await getCodeApi();
-      console.log(res);
+      try {
+        const res = await getCodeApi();
+        this.orderCode = res.data.code;
+      } catch (error) {
+        this.$handleError(error);
+      }
     },
 
-    handleAdd(values) {},
+    handleInputChange(event) {
+      this.orderContent = event.detail;
+    },
 
-    handleSubmit() {
+    async handOrderSubmit(values) {
+      values.forEach((val, index) => {
+        this.orderImgList.push({
+          imgSeq: index,
+          imgType: 1,
+          imgUrl: val.data.path,
+          orderCode: this.orderCode,
+        });
+      });
+      uni.showLoading({
+        title: "提交中",
+      });
+      try {
+        await addOrderApi({
+          orderCode: this.orderCode,
+          // orderImgList: this.orderImgList,
+          orderContent: this.orderContent,
+          // schoolName: this.schoolName,
+          // schoolCode: this.schoolCode,
+        });
+        uni.navigateBack();
+      } catch (error) {
+        this.$handleError(error);
+      }
+    },
+
+    async handleSubmit() {
       uni.showLoading({
         title: "图片上传中",
       });
       const uploads = [];
       this.fileList.forEach((item, index) => {
-        uploads(uploadFileApi(item));
+        uploads.push(
+          uploadFileApi(item, {
+            orderCode: this.orderCode,
+            imgType: 1,
+          })
+        );
       });
-      Promise.all(uploads).then((values) => {});
+      if (uploads.length > 0) {
+        Promise.all(uploads).then(async (values) => {
+          await this.handOrderSubmit(values);
+          uni.hideLoading();
+        });
+      } else {
+        await this.handOrderSubmit([]);
+        uni.hideLoading();
+      }
     },
   },
 };
