@@ -41,6 +41,11 @@ export default {
     tabsChange(event) {
       this.active = event.detail.name;
     },
+    trigger() {
+      uni.navigateTo({
+        url: "/pages/order-scan/index",
+      });
+    },
   },
 };
 </script>

@@ -17,7 +17,7 @@
       v-for="(record, index) in records"
       :key="index"
       :title="record.orderContent"
-      @click="handleOrderClick(record.orderId)"
+      @click="handleOrderClick(record)"
       is-link
       >{{ getStatusStr(record) }}</van-cell
     >
@@ -149,9 +149,10 @@
 
 <script>
 import { queryOrderListApi } from "@/apis/order";
-import { OrderStatusStrMap, OrgType } from "@/helpers/constants";
+import { OrderStatusStrMap, OrgType, OrderStatus } from "@/helpers/constants";
 import { queryOrgList } from "@/apis/org";
 import { parseTime } from "@/utils/time";
+import { getCurrentUserOrgType } from "@/helpers/storage";
 
 export default {
   data() {
@@ -195,7 +196,7 @@ export default {
       return parseTime(time, "yyyy-MM-dd");
     },
     async handleQueryOrders() {
-      const params = {};
+      const params = { orderByColumn: "orderId", isAsc: "desc" };
       if (this.filter.school && this.filter.school.orgCode) {
         params.schoolCode = this.filter.school.orgCode;
       }
@@ -214,10 +215,20 @@ export default {
       const { rows } = res;
       this.records = rows;
     },
-    handleOrderClick(id) {
-      uni.reLaunch({
-        url: `/pages/order-detail/index?orderId=${id}`,
-      });
+    handleOrderClick(order) {
+      const orgType = getCurrentUserOrgType();
+      if (
+        orgType === OrgType.DataCompany &&
+        order.orderStatus === OrderStatus.WaitingDispatch
+      ) {
+        uni.navigateTo({
+          url: `/pages/dispatch/index?orderId=${order.orderId}`,
+        });
+      } else {
+        uni.navigateTo({
+          url: `/pages/order-detail/index?orderId=${order.orderId}`,
+        });
+      }
     },
     getStatusStr(row) {
       return OrderStatusStrMap[row.orderStatus];
