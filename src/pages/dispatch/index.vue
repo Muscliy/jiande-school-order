@@ -8,7 +8,10 @@
         ><text> {{ order.orderContent }} </text>
       </view>
     </view>
-    <view class="tosb-cell">
+    <view
+      class="tosb-cell"
+      v-if="order.woOrderImgGd && order.woOrderImgGd.length > 0"
+    >
       <view class="pb-16"><text class="text-muted">报修图片</text></view>
       <van-image
         v-for="(img, index) in order.woOrderImgGd"
@@ -21,72 +24,74 @@
         @click="handleImagePreview(order.woOrderImgGd, index)"
       />
     </view>
+    <view class="tosb-cell" v-if="order.orderStatus != '1'">
+      <view class="pb-16"><text class="text-muted">维修人员</text> </view>
+      <view
+        ><text> {{ order.repairName }} </text>
+      </view>
+    </view>
+    <view class="tosb-cell" v-if="order.orderStatus != '1'">
+      <view class="pb-16"><text class="text-muted">维修电话</text> </view>
+      <view
+        ><text> {{ order.repairUserPhone }} </text>
+      </view>
+    </view>
 
-    <van-cell title="维修公司">{{ order.repairName }}</van-cell>
-
-    <van-cell title="维修电话">{{ order.repairUserPhone }}</van-cell>
-
-    <view class="tosb-cell" v-if="order.orderStatus > 2">
-      <view class="pb-16"><text class="text-muted">维修内容</text> </view>
+    <!-- <view class="tosb-cell" v-if="order.orderStatus > 2">
+      <view class="pb-16"><text class="text-muted">维修记录</text> </view>
       <view
         ><text> {{ order.repairContent }} </text>
       </view>
     </view>
-    <view
-      class="tosb-cell"
-      v-if="
-        order.orderStatus > 2 &&
-        order.woDispatchList &&
-        order.woDispatchList.length > 0
-      "
-    >
+    <view class="tosb-cell" v-if="order.orderStatus > 2">
       <view class="pb-16"><text class="text-muted">维修凭证</text></view>
       <van-image
-        v-for="(item, index) in order.woOrderImgWx"
+        v-for="(item, index) in images"
         :key="index"
         :width="imageHeight"
         :height="imageHeight"
         lazy-load
-        :src="`https://hswo.yglyz.com${img.imgUrl}`"
+        :src="item"
         :style="{ marginRight: (index + 1) % 4 === 0 ? '0px' : '10px' }"
-        @click="handleImagePreview(order.woOrderImgWx, index)"
       />
     </view>
-    <view
-      class="tosb-cell"
-      v-if="
-        order.orderStatus > 2 &&
-        order.woOrderImgGd &&
-        order.woOrderImgGd.length > 0
-      "
-    >
+    <view class="tosb-cell" v-if="order.orderStatus > 2">
       <view class="pb-16"><text class="text-muted">物料清单</text></view>
       <van-image
-        v-for="(item, index) in order.woOrderImgGd"
+        v-for="(item, index) in images"
         :key="index"
         :width="imageHeight"
         :height="imageHeight"
         lazy-load
-        :src="`https://hswo.yglyz.com${img.imgUrl}`"
+        :src="item"
         :style="{ marginRight: (index + 1) % 4 === 0 ? '0px' : '10px' }"
-        @click="handleImagePreview(order.woOrderImgGd, index)"
+        @click=""
       />
-    </view>
-    <view slot="footer" v-if="order.orderStatus === '4'">
+    </view> -->
+
+    <van-cell title="选择维修公司" @click="handleSelectOrg" is-link>
+      {{ (org && org.orgName) || "" }}
+    </van-cell>
+    <van-cell
+      v-if="org && org.phonenumber"
+      title="维修公司电话"
+      @click="handleSelectOrg"
+      is-link
+    >
+      {{ (org && org.phonenumber) || "" }}
+    </van-cell>
+
+    <view slot="footer">
       <view class="flex flex-row">
-        <view class="flex items-center justify-center flex-1 px-16"
-          ><van-button class="w-full" block type="warning" @click="handleRest">
-            返修
-          </van-button></view
-        >
         <view class="flex items-center justify-center flex-1 px-16">
           <van-button
             class="w-full"
             block
             type="primary"
             @click="handleConfirm"
+            :disabled="!org.orgName"
           >
-            确认
+            派单
           </van-button></view
         >
       </view>
@@ -96,8 +101,9 @@
 
 <script>
 import { commonMod } from "@/store";
+import { GlobalEventName, OrderStatusStrMap } from "@/helpers/constants";
+
 import { queryOrderApi, editOrderApi } from "@/apis/order";
-import { OrderStatusStrMap } from "@/helpers/constants";
 export default {
   computed: {
     imageHeight() {
@@ -108,6 +114,7 @@ export default {
   data() {
     return {
       order: {},
+      org: {},
       orderStatusStrMap: OrderStatusStrMap,
     };
   },
@@ -115,54 +122,34 @@ export default {
     const { orderId } = option;
     const res = await queryOrderApi({ orderId });
     this.order = res.data.woOrder;
+    uni.$on("orgSelect", (org) => {
+      this.org = org;
+    });
   },
   methods: {
-    handleConfirm() {
-      uni.showModal({
-        title: "确定已完成",
-        showCancel: true,
-        success: async (res) => {
-          try {
-            await editOrderApi({
-              orderId: this.order.orderId,
-              orderCode: this.order.orderCode,
-              orderStatus: 6,
-              schoolUser: this.order.schoolUser,
-              schoolName: this.order.schoolName,
-              schoolUserPhone: this.order.schoolUserPhone,
-            });
-            uni.reLaunch({
-              url: "/pages/school/index",
-            });
-          } catch (error) {
-            this.$handleError(error);
-          }
-        },
-      });
+    async handleConfirm() {
+      try {
+        await editOrderApi({
+          orderCode: this.order.orderCode,
+          orderId: this.order.orderId,
+          orderStatus: 2,
+          repairCode: this.org.orgCode,
+          schoolUser: this.order.schoolUser,
+          schoolName: this.order.schoolName,
+          schoolUserPhone: this.order.schoolUserPhone,
+        });
+        uni.showToast({
+          title: "派单成功",
+        });
+        uni.$emit(GlobalEventName.DispatchSuccess);
+        uni.reLaunch({
+          url: "/pages/company/index",
+        });
+      } catch (error) {
+        this.$handleError(error);
+      }
     },
-    handleRest() {
-      uni.showModal({
-        title: "确定返修",
-        showCancel: true,
-        success: async (res) => {
-          try {
-            await editOrderApi({
-              orderId: this.order.orderId,
-              orderCode: this.order.orderCode,
-              orderStatus: 3,
-              schoolUser: this.order.schoolUser,
-              schoolName: this.order.schoolName,
-              schoolUserPhone: this.order.schoolUserPhone,
-            });
-            uni.reLaunch({
-              url: "/pages/school/index",
-            });
-          } catch (error) {
-            this.$handleError(error);
-          }
-        },
-      });
-    },
+    handleRest() {},
     handleImagePreview(images, index) {
       const imgs = [];
       images.forEach((element) => {
@@ -171,6 +158,11 @@ export default {
       uni.previewImage({
         urls: imgs,
         current: imgs[index],
+      });
+    },
+    handleSelectOrg() {
+      uni.navigateTo({
+        url: "/pages/org-selector/index?orgType=4",
       });
     },
   },

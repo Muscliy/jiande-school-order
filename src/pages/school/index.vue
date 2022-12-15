@@ -20,7 +20,7 @@
       </van-tab>
       <van-tab title="已完成">
         <view>
-          <all-orders :status="0" />
+          <all-orders :status="4" />
         </view>
       </van-tab>
     </van-tabs>

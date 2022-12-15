@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import { queryOrderListApi } from "../../../apis/order";
-import { OrderStatus } from "../../../helpers/constants";
-import { parseTime } from "../../../utils/time";
+import { queryOrderListApi } from "@/apis/order";
+import { OrderStatusStrMap } from "@/helpers/constants";
+import { parseTime } from "@/utils/time";
 export default {
   name: "AllOrders",
   props: {
@@ -40,7 +40,7 @@ export default {
       });
     },
     getStatusStr(row) {
-      return OrderStatus[row.orderStatus];
+      return OrderStatusStrMap[row.orderStatus];
     },
   },
 };

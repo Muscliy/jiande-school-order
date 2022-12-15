@@ -42,6 +42,10 @@ export const loginAfterFromStart = async function () {
       uni.reLaunch({
         url: "/pages/school/index",
       });
+    } else if (orgType === "3") {
+      uni.reLaunch({
+        url: "/pages/company/index",
+      });
     } else if (orgType === "4") {
       uni.reLaunch({
         url: "/pages/worker/index",

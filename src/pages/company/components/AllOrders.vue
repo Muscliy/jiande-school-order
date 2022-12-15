@@ -14,7 +14,6 @@
 <script>
 import { queryOrderListApi } from "@/apis/order";
 import { OrderStatusStrMap } from "@/helpers/constants";
-
 export default {
   name: "AllOrders",
   props: {
@@ -22,20 +21,23 @@ export default {
       type: Number,
     },
   },
+
   data() {
     return {
       records: [],
     };
   },
   async mounted() {
-    const res = await queryOrderListApi({ orderStatus: 2 });
+    const res = await queryOrderListApi({
+      orderStatus: this.status,
+    });
     const { rows } = res;
     this.records = rows;
   },
   methods: {
     handleOrderClick(id) {
       uni.reLaunch({
-        url: `/pages/order-repair/index?orderId=${id}`,
+        url: `/pages/dispatch/index?orderId=${id}`,
       });
     },
     getStatusStr(row) {

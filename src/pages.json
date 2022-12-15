@@ -47,6 +47,24 @@
       "style": {
         "navigationBarTitleText": "维修记录"
       }
+    },
+    {
+      "path": "pages/company/index",
+      "style": {
+        "navigationBarTitleText": "保修列表"
+      }
+    },
+    {
+      "path": "pages/dispatch/index",
+      "style": {
+        "navigationBarTitleText": "派单"
+      }
+    },
+    {
+      "path": "pages/org-selector/index",
+      "style": {
+        "navigationBarTitleText": "选择机构"
+      }
     }
   ],
   "globalStyle": {

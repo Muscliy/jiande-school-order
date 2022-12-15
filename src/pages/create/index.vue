@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import { uploadFileApi } from "../../apis/file";
-import { getCodeApi, addOrderApi } from "../../apis/order";
-import { getUserInfoSync } from "../../helpers/storage";
+import { uploadFileApi } from "@/apis/file";
+import { getCodeApi, addOrderApi } from "@/apis/order";
+import { getUserInfoSync } from "@/helpers/storage";
 
 export default {
   data() {
@@ -73,25 +73,22 @@ export default {
       this.orderContent = event.detail;
     },
 
-    async handOrderSubmit(values) {
-      values.forEach((val, index) => {
-        this.orderImgList.push({
-          imgSeq: index,
-          imgType: 1,
-          imgUrl: val.data.path,
-          orderCode: this.orderCode,
-        });
-      });
+    async handOrderSubmit() {
+      // values.forEach((val, index) => {
+      //   this.orderImgList.push({
+      //     imgSeq: index,
+      //     imgType: 1,
+      //     imgUrl: val.data.path,
+      //     orderCode: this.orderCode,
+      //   });
+      // });
       uni.showLoading({
         title: "提交中",
       });
       try {
         await addOrderApi({
           orderCode: this.orderCode,
-          // orderImgList: this.orderImgList,
           orderContent: this.orderContent,
-          // schoolName: this.schoolName,
-          // schoolCode: this.schoolCode,
         });
         uni.navigateBack();
       } catch (error) {
@@ -114,11 +111,11 @@ export default {
       });
       if (uploads.length > 0) {
         Promise.all(uploads).then(async (values) => {
-          await this.handOrderSubmit(values);
+          await this.handOrderSubmit();
           uni.hideLoading();
         });
       } else {
-        await this.handOrderSubmit([]);
+        await this.handOrderSubmit();
         uni.hideLoading();
       }
     },
