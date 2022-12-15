@@ -38,7 +38,7 @@ export default {
       scrollTop: -1,
       scroll: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 15,
         isLoading: false,
         isEmpty: false,
         isPullDown: false,

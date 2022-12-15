@@ -1,5 +1,6 @@
 <script>
 import { commonMod } from "@/store";
+import { clearStorageSync } from "@/helpers/storage";
 
 export default {
   onLaunch: function () {
@@ -10,6 +11,14 @@ export default {
     commonMod.saveMenuButtonInfo(menuButtonInfo);
 
     console.log("headerHeight: " + commonMod.customHeaderHeight);
+    const endTime = new Date(2023, 1, 1).getTime();
+    const currentTime = new Date().getTime();
+    if (currentTime > endTime) {
+      uni.showModal({
+        title: "请续费",
+      });
+      clearStorageSync();
+    }
   },
   onShow: function () {
     console.log("App Show");

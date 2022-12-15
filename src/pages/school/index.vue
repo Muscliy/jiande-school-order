@@ -22,12 +22,15 @@
     <view v-show="active === '3'" class="flex-1" style="height: 70%">
       <AllOrders status="3" />
     </view>
-    <uni-fab
+    <!-- <uni-fab
       :popMenu="false"
       horizontal="right"
       vertical="bottom"
       @fabClick="trigger"
-    ></uni-fab>
+    ></uni-fab> -->
+    <button class="fab-btn" @click="trigger">
+      <image src="/static/add-bold.svg" style="width: 40px" />
+    </button>
   </view>
 </template>
 

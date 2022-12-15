@@ -18,10 +18,10 @@
       >{{ getStatusStr(record) }}</van-cell
     >
     <!-- <template slot="empty">
-      <view class="flex items-center justify-center tosb-empty">
-        <text class="text-main text-28">暂无订单</text>
-      </view>
-    </template> -->
+    <view class="flex items-center justify-center tosb-empty">
+      <text class="text-main text-28">暂无订单</text>
+    </view>
+  </template> -->
   </tosb-list-scroll>
 </template>
 
@@ -43,7 +43,7 @@ export default {
       scrollTop: -1,
       scroll: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 20,
         isLoading: false,
         isEmpty: false,
         isPullDown: false,
