@@ -16,3 +16,13 @@ export const OrderStatus = {
 export const GlobalEventName = {
   DispatchSuccess: "DispatchSuccess",
 };
+
+// @Excel(name = "机构类型：1:学校，2:教育局，3:数字公司，4:维修公司")
+export const OrgType = {
+  School: "1",
+  EducationBureau: "2",
+  DataCompany: "3",
+  MaintenanceCompany: "4",
+};
+
+export const HostUrl = "https://hswo.yglyz.com";

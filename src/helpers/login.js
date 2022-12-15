@@ -13,6 +13,7 @@ import {
   setUserInfoSync,
 } from "./storage";
 import { queryOrgList } from "../apis/org";
+import { OrgType } from "./constants";
 
 // 登录后统一处理逻辑
 export const loginAfterDo = async function (res) {
@@ -36,19 +37,23 @@ export const loginAfterDo = async function (res) {
 export const loginAfterFromStart = async function () {
   const token = getTokenSync();
   const orgType = getCurrentUserOrgType();
-  // @Excel(name = "机构类型：1:学校，2:教育局，3:数字公司，4:维修公司")
+
   if (token) {
-    if (orgType === "1") {
+    if (orgType === OrgType.School) {
       uni.reLaunch({
         url: "/pages/school/index",
       });
-    } else if (orgType === "3") {
+    } else if (orgType === OrgType.DataCompany) {
       uni.reLaunch({
         url: "/pages/company/index",
       });
-    } else if (orgType === "4") {
+    } else if (orgType === OrgType.MaintenanceCompany) {
       uni.reLaunch({
         url: "/pages/worker/index",
+      });
+    } else if (orgType === OrgType.EducationBureau) {
+      uni.reLaunch({
+        url: "/pages/order-scan/index",
       });
     } else {
       uni.showToast({

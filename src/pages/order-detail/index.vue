@@ -8,7 +8,10 @@
         ><text> {{ order.orderContent }} </text>
       </view>
     </view>
-    <view class="tosb-cell">
+    <view
+      class="tosb-cell"
+      v-if="order.woOrderImgGd && order.woOrderImgGd.length > 0"
+    >
       <view class="pb-16"><text class="text-muted">报修图片</text></view>
       <van-image
         v-for="(img, index) in order.woOrderImgGd"
@@ -16,15 +19,19 @@
         :width="imageHeight"
         :height="imageHeight"
         lazy-load
-        :src="`https://hswo.yglyz.com${img.imgUrl}`"
+        :src="getImageUrl(img.imgUrl)"
         :style="{ marginRight: (index + 1) % 4 === 0 ? '0px' : '10px' }"
         @click="handleImagePreview(order.woOrderImgGd, index)"
       />
     </view>
 
-    <van-cell title="维修公司">{{ order.repairName }}</van-cell>
+    <van-cell title="维修公司" v-if="Number(order.orderStatus) > 1">{{
+      order.repairName
+    }}</van-cell>
 
-    <van-cell title="维修电话">{{ order.repairUserPhone }}</van-cell>
+    <van-cell title="维修电话" v-if="Number(order.orderStatus) > 1">{{
+      order.repairUserPhone
+    }}</van-cell>
 
     <view class="tosb-cell" v-if="order.orderStatus > 2">
       <view class="pb-16"><text class="text-muted">维修内容</text> </view>
@@ -42,12 +49,12 @@
     >
       <view class="pb-16"><text class="text-muted">维修凭证</text></view>
       <van-image
-        v-for="(item, index) in order.woOrderImgWx"
+        v-for="(img, index) in order.woOrderImgWx"
         :key="index"
         :width="imageHeight"
         :height="imageHeight"
         lazy-load
-        :src="`https://hswo.yglyz.com${img.imgUrl}`"
+        :src="getImageUrl(img.imgUrl)"
         :style="{ marginRight: (index + 1) % 4 === 0 ? '0px' : '10px' }"
         @click="handleImagePreview(order.woOrderImgWx, index)"
       />
@@ -55,23 +62,29 @@
     <view
       class="tosb-cell"
       v-if="
-        order.orderStatus > 2 &&
-        order.woOrderImgGd &&
-        order.woOrderImgGd.length > 0
+        Number(order.orderStatus) > 2 &&
+        order.woOrderInfo &&
+        order.woOrderInfo.length > 0
       "
     >
       <view class="pb-16"><text class="text-muted">物料清单</text></view>
       <van-image
-        v-for="(item, index) in order.woOrderImgGd"
+        v-for="(img, index) in order.woOrderImgGd"
         :key="index"
         :width="imageHeight"
         :height="imageHeight"
         lazy-load
-        :src="`https://hswo.yglyz.com${img.imgUrl}`"
+        :src="getImageUrl(img.imgUrl)"
         :style="{ marginRight: (index + 1) % 4 === 0 ? '0px' : '10px' }"
-        @click="handleImagePreview(order.woOrderImgGd, index)"
+        @click="handleImagePreview(order.woOrderInfo, index)"
       />
     </view>
+    <van-cell
+      v-if="Number(order.orderStatus) > 1"
+      title="维修历史记录"
+      @click="handleRecordClick"
+      is-link
+    ></van-cell>
     <view slot="footer" v-if="order.orderStatus === '4'">
       <view class="flex flex-row">
         <view class="flex items-center justify-center flex-1 px-16"
@@ -97,12 +110,17 @@
 <script>
 import { commonMod } from "@/store";
 import { queryOrderApi, editOrderApi } from "@/apis/order";
-import { OrderStatusStrMap } from "@/helpers/constants";
+import { OrderStatusStrMap, HostUrl } from "@/helpers/constants";
+import { getCurrentUserOrgType } from "@/helpers/storage";
 export default {
   computed: {
     imageHeight() {
       const { systemInfo } = commonMod;
       return (systemInfo.windowWidth - 62) / 4;
+    },
+    isSchool() {
+      const orgType = getCurrentUserOrgType();
+      return orgType === "";
     },
   },
   data() {
@@ -117,6 +135,9 @@ export default {
     this.order = res.data.woOrder;
   },
   methods: {
+    getImageUrl(path) {
+      return `${HostUrl}${path}`;
+    },
     handleConfirm() {
       uni.showModal({
         title: "确定已完成",
@@ -171,6 +192,12 @@ export default {
       uni.previewImage({
         urls: imgs,
         current: imgs[index],
+      });
+    },
+
+    handleRecordClick() {
+      uni.navigateTo({
+        url: `/pages/repair-records/index?orderCode=${this.order.orderCode}`,
       });
     },
   },
