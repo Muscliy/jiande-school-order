@@ -51,7 +51,7 @@
     {
       "path": "pages/company/index",
       "style": {
-        "navigationBarTitleText": "保修列表"
+        "navigationBarTitleText": "报修列表"
       }
     },
     {

@@ -61,7 +61,6 @@ export const loginAfterFromStart = async function () {
         duration: 2000,
       });
     }
-    syncUserOrgInfo();
   } else {
     uni.reLaunch({
       url: "/pages/login/index",

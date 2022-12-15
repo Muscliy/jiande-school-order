@@ -19,7 +19,7 @@
         :width="imageHeight"
         :height="imageHeight"
         lazy-load
-        :src="`https://hswo.yglyz.com${img.imgUrl}`"
+        :src="getImageUrl(img.imgUrl)"
         :style="{ marginRight: (index + 1) % 4 === 0 ? '0px' : '10px' }"
         @click="handleImagePreview(order.woOrderImgGd, index)"
       />
@@ -102,8 +102,8 @@
 <script>
 import { commonMod } from "@/store";
 import { GlobalEventName, OrderStatusStrMap } from "@/helpers/constants";
-
 import { queryOrderApi, editOrderApi } from "@/apis/order";
+import { createBaseUrl } from "@/config";
 export default {
   computed: {
     imageHeight() {
@@ -127,6 +127,9 @@ export default {
     });
   },
   methods: {
+    getImageUrl(path) {
+      return `${createBaseUrl()}${path}`;
+    },
     async handleConfirm() {
       try {
         await editOrderApi({
@@ -153,7 +156,7 @@ export default {
     handleImagePreview(images, index) {
       const imgs = [];
       images.forEach((element) => {
-        imgs.push(`https://hswo.yglyz.com${element.imgUrl}`);
+        imgs.push(`${createBaseUrl()}${element.imgUrl}`);
       });
       uni.previewImage({
         urls: imgs,

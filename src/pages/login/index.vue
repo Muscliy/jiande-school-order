@@ -1,9 +1,6 @@
 <template>
   <view class="wrapper">
-    <image
-      class="logo"
-      src="https://oss.kuaihuoyun.com/celestia/img/driver-mini-logo.png"
-    ></image>
+    <image class="logo" src="/static/logo.png"></image>
     <text class="block text-center text-40 h1">安全校园</text>
     <view class="btn-box">
       <button

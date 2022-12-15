@@ -1,9 +1,6 @@
 <template>
   <view class="wrapper">
-    <image
-      class="logo"
-      src="https://oss.kuaihuoyun.com/celestia/img/driver-mini-logo.png"
-    ></image>
+    <image class="logo" src="/static/logo.png"></image>
     <text>平安校园</text>
   </view>
 </template>

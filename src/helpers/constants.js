@@ -24,5 +24,3 @@ export const OrgType = {
   DataCompany: "3",
   MaintenanceCompany: "4",
 };
-
-export const HostUrl = "https://hswo.yglyz.com";

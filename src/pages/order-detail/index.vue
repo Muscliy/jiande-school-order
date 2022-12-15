@@ -110,8 +110,9 @@
 <script>
 import { commonMod } from "@/store";
 import { queryOrderApi, editOrderApi } from "@/apis/order";
-import { OrderStatusStrMap, HostUrl } from "@/helpers/constants";
+import { OrderStatusStrMap } from "@/helpers/constants";
 import { getCurrentUserOrgType } from "@/helpers/storage";
+import { createBaseUrl } from "@/config";
 export default {
   computed: {
     imageHeight() {
@@ -136,7 +137,7 @@ export default {
   },
   methods: {
     getImageUrl(path) {
-      return `${HostUrl}${path}`;
+      return `${createBaseUrl()}${path}`;
     },
     handleConfirm() {
       uni.showModal({
@@ -187,7 +188,7 @@ export default {
     handleImagePreview(images, index) {
       const imgs = [];
       images.forEach((element) => {
-        imgs.push(`https://hswo.yglyz.com${element.imgUrl}`);
+        imgs.push(`${createBaseUrl()}${element.imgUrl}`);
       });
       uni.previewImage({
         urls: imgs,

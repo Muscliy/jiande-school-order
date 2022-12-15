@@ -90,7 +90,9 @@ export default {
           orderCode: this.orderCode,
           orderContent: this.orderContent,
         });
-        uni.navigateBack();
+        uni.reLaunch({
+          url: "/pages/school/index",
+        });
       } catch (error) {
         this.$handleError(error);
       }

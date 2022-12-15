@@ -1,29 +1,27 @@
 <template>
-  <view class="container">
-    <van-tabs
-      :active="active"
-      @change="tabsChange"
-      animated
-      color="#0076ff"
-      title-active-color="#0076ff"
-      line-width="40rpx"
-    >
-      <van-tab title="全部">
-        <view>
-          <all-orders :status="1" />
-        </view>
-      </van-tab>
-      <van-tab title="处理中">
-        <view>
-          <all-orders :status="2" />
-        </view>
-      </van-tab>
-      <van-tab title="已完成">
-        <view>
-          <all-orders :status="4" />
-        </view>
-      </van-tab>
-    </van-tabs>
+  <view class="container flex flex-col">
+    <view
+      ><van-tabs
+        :active="active"
+        @change="tabsChange"
+        animated
+        color="#0076ff"
+        title-active-color="#0076ff"
+        line-width="40rpx"
+      >
+        <van-tab title="全部" name="1" />
+        <van-tab title="处理中" name="2"> </van-tab>
+        <van-tab title="已完成" name="3"> </van-tab> </van-tabs
+    ></view>
+    <view v-show="active === '1'" class="flex-1" style="height: 70%">
+      <AllOrders status="1" class="h-full" />
+    </view>
+    <view v-show="active === '2'" class="flex-1" style="height: 70%">
+      <AllOrders status="2" />
+    </view>
+    <view v-show="active === '3'" class="flex-1" style="height: 70%">
+      <AllOrders status="3" />
+    </view>
     <uni-fab
       :popMenu="false"
       horizontal="right"
@@ -41,7 +39,7 @@ export default {
   },
   data() {
     return {
-      active: 0,
+      active: "1",
     };
   },
 

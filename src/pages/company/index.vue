@@ -1,20 +1,26 @@
 <template>
   <tosb-layout>
-    <van-tabs
-      :active="active"
-      @change="tabsChange"
-      animated
-      color="#0076ff"
-      title-active-color="#0076ff"
-      line-width="40rpx"
-    >
-      <van-tab title="待派单">
-        <AllOrders status="1" />
-      </van-tab>
-      <van-tab title="已退单">
-        <AllOrders status="3" />
-      </van-tab>
-    </van-tabs>
+    <view>
+      <van-tabs
+        :active="active"
+        @change="tabsChange"
+        animated
+        color="#0076ff"
+        title-active-color="#0076ff"
+        line-width="40rpx"
+      >
+        <van-tab title="待派单" name="1" />
+        <van-tab title="已退单" name="3" />
+      </van-tabs>
+    </view>
+
+    <view v-show="active === '1'" class="flex-1" style="height: 70%">
+      <AllOrders status="1" />
+    </view>
+
+    <view v-show="active === '3'" class="flex-1" style="height: 70%">
+      <AllOrders status="3" />
+    </view>
 
     <uni-fab
       :popMenu="false"
@@ -33,7 +39,7 @@ export default {
   },
   data() {
     return {
-      active: 0,
+      active: "1",
     };
   },
 

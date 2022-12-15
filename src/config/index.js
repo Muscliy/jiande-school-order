@@ -15,8 +15,8 @@ export const BaseUrlMap = {
   // develop: 'https://gateway.wlhyos.test.xiaokuaikeji.com',
   develop: "https://hswo.yglyz.com/",
   // develop: "http://27t16407n1.oicp.vip/",
-  trial: "https://driver.wlhyos.test.xiaokuaikeji.com",
-  release: "https://driver.wlhyos.com",
+  trial: "https://hswo.yglyz.com/",
+  release: "https://hswo.yglyz.com/",
 };
 
 export const createBaseUrl = function () {
