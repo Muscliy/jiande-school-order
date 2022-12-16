@@ -1,6 +1,7 @@
 <template>
-  <view class="container flex flex-col">
-    <view
+  <tosb-layout>
+    <TableOrders class="h-full" />
+    <!-- <view
       ><van-tabs
         :active="active"
         @change="tabsChange"
@@ -21,7 +22,7 @@
     </view>
     <view v-show="active === '3'" class="flex-1" style="height: 70%">
       <AllOrders status="3" />
-    </view>
+    </view> -->
     <!-- <uni-fab
       :popMenu="false"
       horizontal="right"
@@ -31,14 +32,15 @@
     <button class="fab-btn" @click="trigger">
       <image src="/static/add-bold.svg" style="width: 40px" />
     </button>
-  </view>
+  </tosb-layout>
 </template>
 
 <script>
-import AllOrders from "./components/AllOrders.vue";
+// import AllOrders from "./components/AllOrders.vue";
+import TableOrders from "./components/TableOrders.vue";
 export default {
   components: {
-    AllOrders,
+    TableOrders,
   },
   data() {
     return {

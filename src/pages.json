@@ -45,7 +45,7 @@
     {
       "path": "pages/school/index",
       "style": {
-        "navigationBarTitleText": "维修记录"
+        "navigationBarTitleText": "报修历史"
       }
     },
     {
@@ -57,7 +57,7 @@
     {
       "path": "pages/dispatch/index",
       "style": {
-        "navigationBarTitleText": "派单"
+        "navigationBarTitleText": "报修派单"
       }
     },
     {
@@ -85,6 +85,8 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8",
     "usingComponents": {
+      "tosb-table": "/wxcomponents/table/table/table",
+      "tosb-load-more": "/wxcomponents/table/load_more/index",
       // "demo-block": "/wxcomponents/vant/demo-block/index",
       // "van-action-sheet": "/wxcomponents/vant/action-sheet/index",
       // "van-area": "/wxcomponents/vant/area/index",
