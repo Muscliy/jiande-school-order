@@ -6,7 +6,7 @@
       </view>
     </template>
 
-    <view :style="contentStyle" class="overflow-scroll">
+    <view :style="contentStyle" class="flex-1 overflow-scroll">
       <slot />
     </view>
 
@@ -46,7 +46,7 @@ export default {
     contentStyle() {
       let style = "";
       if (this.$slots.footer) {
-        style += "height: calc(100% - 64rpx)";
+        style += "height: calc(100% - 64px)";
       }
       return style;
     },

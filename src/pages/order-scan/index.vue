@@ -104,8 +104,6 @@ export default {
           params["params[endTime]"] = this.getFormatTime(this.filter.endTime);
         }
 
-        debugger;
-
         const res = await queryOrderListApi(params);
         const rows = [];
         res.rows.forEach((item) => {

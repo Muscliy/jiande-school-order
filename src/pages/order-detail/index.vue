@@ -3,7 +3,9 @@
     <van-cell title="学校">{{ order.schoolName }}</van-cell>
     <van-cell title="状态">{{ orderStatusStrMap[order.orderStatus] }}</van-cell>
     <view class="tosb-cell">
-      <view style="padding-bottom: 10px"><text>报修原因</text> </view>
+      <view style="padding-bottom: 10px"
+        ><text class="text-muted">报修原因</text>
+      </view>
       <view class="van-cell__value value-class"
         ><text> {{ order.orderContent }} </text>
       </view>
@@ -26,17 +28,17 @@
     </view>
 
     <van-cell title="维修公司" v-if="Number(order.orderStatus) > 1">{{
-      order.repairName
+      order.repairName || "--"
     }}</van-cell>
 
     <van-cell title="维修电话" v-if="Number(order.orderStatus) > 1">{{
-      order.repairUserPhone
+      order.repairUserPhone || "--"
     }}</van-cell>
 
     <view class="tosb-cell" v-if="order.orderStatus > 2">
       <view class="pb-16"><text class="text-muted">维修内容</text> </view>
       <view
-        ><text> {{ order.repairContent }} </text>
+        ><text> {{ order.repairContent || "" }} </text>
       </view>
     </view>
     <view
@@ -85,7 +87,7 @@
       @click="handleRecordClick"
       is-link
     ></van-cell>
-    <view slot="footer" v-if="order.orderStatus === '4'">
+    <view slot="footer" v-if="order.orderStatus === '4' && isSchool">
       <view class="flex flex-row">
         <view class="flex items-center justify-center flex-1 px-16"
           ><van-button class="w-full" block type="warning" @click="handleRest">
@@ -132,7 +134,11 @@ export default {
   },
   async onLoad(option) {
     const { orderId } = option;
+    uni.showLoading({
+      title: "加载中...",
+    });
     const res = await queryOrderApi({ orderId });
+    uni.hideLoading();
     this.order = res.data.woOrder;
   },
   methods: {

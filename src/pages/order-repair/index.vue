@@ -2,7 +2,9 @@
   <tosb-page footer>
     <van-cell-group title-width="90rpx" :border="false">
       <van-cell title="学校">{{ order.schoolName }}</van-cell>
-      <van-cell title="状态">{{ orderStatus[order.orderStatus] }}</van-cell>
+      <van-cell title="状态">{{
+        orderStatusStrMap[order.orderStatus]
+      }}</van-cell>
       <van-cell title="承修单位">{{ order.repairName }}</van-cell>
       <view class="tosb-cell">
         <view style="padding-bottom: 10px"><text>报修原因</text> </view>

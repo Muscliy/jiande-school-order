@@ -3,7 +3,9 @@
     <van-cell title="学校">{{ order.schoolName }}</van-cell>
     <van-cell title="状态">{{ orderStatusStrMap[order.orderStatus] }}</van-cell>
     <view class="tosb-cell">
-      <view style="padding-bottom: 10px"><text>报修原因</text> </view>
+      <view style="padding-bottom: 10px"
+        ><text class="text-muted">报修原因</text>
+      </view>
       <view class="van-cell__value value-class"
         ><text> {{ order.orderContent }} </text>
       </view>

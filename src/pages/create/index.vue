@@ -8,7 +8,7 @@
         type="textarea"
         placeholder="请输入原因"
         :value="orderContent"
-        :autosize="{ minHeight: 200 }"
+        :autosize="{ minHeight: 50 }"
         @change="handleInputChange"
         border
       />
